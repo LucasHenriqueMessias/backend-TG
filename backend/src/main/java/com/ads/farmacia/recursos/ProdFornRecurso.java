@@ -1,14 +1,19 @@
 package com.ads.farmacia.recursos;
-
+import java.net.URI;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.ads.farmacia.entidades.ProdForn;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import com.ads.farmacia.dto.ProdFornDTO;
 import com.ads.farmacia.servicos.ProdFornServico;
 
 
@@ -21,50 +26,42 @@ public class ProdFornRecurso {
 	private ProdFornServico servico;
 	
 	@GetMapping
-	public ResponseEntity<List<ProdForn>> findAll() {
-		List<ProdForn> lista = servico.findAll();
+	public ResponseEntity<List<ProdFornDTO>> findAll() {
+		List<ProdFornDTO> lista = servico.findAll();
 		return ResponseEntity.ok().body(lista);
 	}
 	
-	@PostMapping("/prodforns")
-	public prodForn criaProdforn(@RequestBody ProdForn prodforns) {
-		return ProdFornRepositorio.save(ProdForn);
+	@PostMapping("/prodforns/{codBarras}")
+	public ResponseEntity<ProdFornDTO> insert(@RequestBody ProdFornDTO dto) {
+		dto = servico.insert(dto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{codBarras}").buildAndExpand(dto.getCodBarras())
+				.toUri();
+
+		return ResponseEntity.created(uri).body(dto);
 	}
 
 	// get prodForn by id rest api
-	@GetMapping("/prodforns/{id}")
-	public ResponseEntity<ProdForn> getEmployeeById(@PathVariable Long id) {
-		ProdForn prodforns = ProdFornRepositorio.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
-		return ResponseEntity.ok(ProdForn);
+	@GetMapping(value = "/{codBarras}")
+	public ResponseEntity<ProdFornDTO> findById(@PathVariable Integer codBarras) {
+		ProdFornDTO dto = servico.findById(codBarras);
+		return ResponseEntity.ok().body(dto);
 	}
 
 	// update ProdForn rest api
 
-	@PutMapping("/prodforns/{id}")
-	public ResponseEntity<ProdForn> atualizaProduto(@PathVariable Long id, @RequestBody ProdForn detalhesProdForn) {
-		final ProdForn prodForn = produtoRepositorio.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
-		
-		
-		
-		ProdForn.setPreco(detalhesProdForn.getPreco());
-		ProdForn.setProduto(detalhesProdForn.getProduto());
-		ProdForn.setFornecedor(detalhesProdForn.getFornecedor());
+	@PutMapping("/prodforns/{codBarras}")
+	public ResponseEntity<ProdFornDTO> update(@PathVariable Integer codBarras, @RequestBody ProdFornDTO dto) {
+		dto = servico.update(codBarras, dto);
 
-		ProdForn atualizaProdForn = ProdFornRepositorio.save(prodForn);
-		return ResponseEntity.ok(atualizaProdForn);
+		return ResponseEntity.ok().body(dto);
 	}
-
+	
 	// delete ProdForn rest api
-	@DeleteMapping("/prodforns/{id}")
-	public ResponseEntity<Map<String, Boolean>> deletaProdForn(@PathVariable Long id) {
-		Optional<ProdForn> prodforns = ProdFornRepositorio.findById(id);
+	@DeleteMapping("/prodforns/{codBarras}")
+	public ResponseEntity<Void> delete(@PathVariable Integer cnpj) {
+		servico.delete(cnpj);
 
-		ProdFornRepositorio.deleteById(id);
-		Map<String, Boolean> response = new HashMap<>();
-		response.put("deleted", Boolean.TRUE);
-		return ResponseEntity.ok(response);
+		return ResponseEntity.noContent().build();
 	}
 
 }

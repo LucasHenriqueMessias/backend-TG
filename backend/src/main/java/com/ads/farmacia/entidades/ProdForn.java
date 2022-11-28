@@ -3,6 +3,7 @@ package com.ads.farmacia.entidades;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -15,13 +16,13 @@ public class ProdForn implements Serializable {
 	@Id
 	private Integer codBarras;
 
-	@column (name = "preco")
+	@Column (name = "preco")
 	private double preco;
 	
-	@column (name = "produto")
+	@Column (name = "produto")
 	private Produto produto;
 
-	@column (name = "fornecedor")
+	@Column (name = "fornecedor")
 	private Fornecedor fornecedor;
 
 	public ProdForn() {

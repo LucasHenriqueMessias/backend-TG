@@ -1,11 +1,15 @@
 package com.ads.farmacia.entidades;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 @Entity
@@ -13,38 +17,43 @@ import javax.persistence.Table;
 public class Fornecedor implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+	private Instant createdAt;
+
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+	private Instant updatedAt;
+
 	@Id
-	//não tem a linha @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer cnpj;
 
-	@column (name = "logradouro")
+	@Column(name = "logradouro")
 	private String logradouro;
 
-	@column (name = "IBGE")
+	@Column(name = "IBGE")
 	private Integer ibge;
 
-	@column (name = "numero")
+	@Column(name = "numero")
 	private Integer numero;
 
-	@column(name = "cep")
+	@Column(name = "cep")
 	private Integer cep;
 
-	@column (name = "complemento")
+	@Column(name = "complemento")
 	private String complemento;
 
-	@column (name = "cidade")
+	@Column(name = "cidade")
 	private String cidade;
 
-	@column (name = "uf")
+	@Column(name = "uf")
 	private String uf;
 
-	@column (name = telefone)
+	@Column(name = "telefone")
 	private String telefone;
 
-	@column (name = "razaoSocial")
+	@Column(name = "razaoSocial")
 	private String razaoSocial;
 
-	@column (name = "prodForn")
+	@Column(name = "prodForn")
 	private ArrayList<ProdForn> prodForn;
 
 	public Fornecedor() {
@@ -56,6 +65,7 @@ public class Fornecedor implements Serializable {
 		this.ibge = ibge;
 		this.cep = cep;
 		this.razaoSocial = razaoSocial;
+		prodForn = new ArrayList<>();
 	}
 
 	public String getComplemento() {
@@ -120,6 +130,56 @@ public class Fornecedor implements Serializable {
 
 	public void setProdForn(ArrayList<ProdForn> prodForn) {
 		this.prodForn = prodForn;
+	}
+
+	public Instant getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Instant createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Instant getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Instant updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public void setCnpj(Integer cnpj) {
+		this.cnpj = cnpj;
+	}
+
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
+	}
+
+	public void setIbge(Integer ibge) {
+		this.ibge = ibge;
+	}
+
+	public void setNumero(Integer numero) {
+		this.numero = numero;
+	}
+
+	public void setCep(Integer cep) {
+		this.cep = cep;
+	}
+
+	public void setUf(String uf) {
+		this.uf = uf;
+	}
+
+	@PrePersist
+	public void prePersist() {
+		createdAt = Instant.now();
+	}
+
+	@PreUpdate
+	public void preUpdate() {
+		updatedAt = Instant.now();
 	}
 
 	@Override

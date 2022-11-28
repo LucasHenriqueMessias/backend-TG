@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.ads.farmacia.entidades.Produto;
 
 @Repository
-public interface ProdutoRepositorio extends JpaRepository<Produto, Long> {
+public interface ProdutoRepositorio extends JpaRepository<Produto, Integer> {
 
 	
 }

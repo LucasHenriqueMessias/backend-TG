@@ -3,6 +3,7 @@ package com.ads.farmacia.entidades;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,16 +19,16 @@ public class Movimentacao implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer codOperacao;
 
-	@column (name = "status")
+	@Column (name = "status")
 	private Integer status;
 
-	@column (name = "dataRecebimento")
+	@Column (name = "dataRecebimento")
 	private String dataRecebimento;
 
-	@column (name = "loja")
+	@Column (name = "loja")
 	private Loja loja;
 
-	@column (name = "prodForn")
+	@Column (name = "prodForn")
 	private ProdForn prodForn;
 
 	public Movimentacao() {

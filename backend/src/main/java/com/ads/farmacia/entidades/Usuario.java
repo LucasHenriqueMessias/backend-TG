@@ -3,6 +3,7 @@ package com.ads.farmacia.entidades;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -15,28 +16,28 @@ public class Usuario implements Serializable {
 	@Id
 	private Integer cpf;
 
-	@column (name = "crf")
+	@Column (name = "crf")
 	private Integer crf;
 
-	@column (name = "nome")
+	@Column (name = "nome")
 	private String nome;
 
-	@column (name = "email")
+	@Column (name = "email")
 	private String email;
 
-	@column (name = "senha")
+	@Column (name = "senha")
 	private String senha;
 
-	@column (name = "cargo")
+	@Column (name = "cargo")
 	private String cargo;
 
-	@column (name = "telefone")
+	@Column (name = "telefone")
 	private String telefone;
 
-	@column (name = "situacao")
+	@Column (name = "situacao")
 	private String situacao = "Pendente"; //iniciar o insert como pendente, quando for autorizado, atualizar para "Ativo"
 
-	@column (name = loja)
+	@Column (name = "loja")
 	private Loja loja;
 
 	public Usuario() {

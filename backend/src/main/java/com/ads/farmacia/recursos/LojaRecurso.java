@@ -1,14 +1,22 @@
 package com.ads.farmacia.recursos;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.ads.farmacia.entidades.Loja;
+import com.ads.farmacia.dto.LojaDTO;
 import com.ads.farmacia.servicos.LojaServico;
 
 @CrossOrigin(origins = "http://localhost:8080")
@@ -18,48 +26,39 @@ public class LojaRecurso {
 
 	@Autowired
 	private LojaServico servico;
-	
+
 	@GetMapping
-	public ResponseEntity<List<Loja>> findAll() {
-		List<Loja> lista = servico.findAll();
+	public ResponseEntity<List<LojaDTO>> findAll() {
+		List<LojaDTO> lista = servico.findAll();
 		return ResponseEntity.ok().body(lista);
 	}
-		
-	@PostMapping("/lojas")
-	public Loja criaLojas(@RequestBody Loja loja) {
-		return LojaRepositorio.save(loja);
+
+	@GetMapping(value = "/{cnpj}")
+	public ResponseEntity<LojaDTO> findById(@PathVariable Integer cnpj) {
+		LojaDTO dto = servico.findById(cnpj);
+		return ResponseEntity.ok().body(dto);
 	}
 
-	// get produtos by id rest api
-	@GetMapping("/lojas/{id}")
-	public ResponseEntity<Loja> getEmployeeById(@PathVariable Long id) {
-		Loja loja = LojaRepositorio.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
-		return ResponseEntity.ok(loja);
+	@PostMapping
+	public ResponseEntity<LojaDTO> insert(@RequestBody LojaDTO dto) {
+		dto = servico.insert(dto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{cnpj}").buildAndExpand(dto.getCnpj())
+				.toUri();
+
+		return ResponseEntity.created(uri).body(dto);
 	}
 
-	// update product rest api
+	@PutMapping(value = "/{cnpj}")
+	public ResponseEntity<LojaDTO> update(@PathVariable Integer cnpj, @RequestBody LojaDTO dto) {
+		dto = servico.update(cnpj, dto);
 
-	@PutMapping("/lojas/{id}")
-	public ResponseEntity<Loja> atualizaLoja(@PathVariable Long id, @RequestBody Loja detalhesLoja) {
-		final Loja loja = produtoRepositorio.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
-
-		produto.setDescricao(detalhesProduto.getDescricao());
-		
-
-		Loja atualizaLoja = LojaRepositorio.save(loja);
-		return ResponseEntity.ok(atualizaLoja);
+		return ResponseEntity.ok().body(dto);
 	}
+	
+	@DeleteMapping(value = "/{cnpj}")
+	public ResponseEntity<Void> delete(@PathVariable Integer cnpj) {
+		servico.delete(cnpj);
 
-	// delete produto rest api
-	@DeleteMapping("/lojas/{id}")
-	public ResponseEntity<Map<String, Boolean>> deletaLojaEntity(@PathVariable Long id) {
-		Optional<Loja> loja = lojaRepositorio.findById(id);
-
-		lojaRepositorio.deleteById(id);
-		Map<String, Boolean> response = new HashMap<>();
-		response.put("deleted", Boolean.TRUE);
-		return ResponseEntity.ok(response);
+		return ResponseEntity.noContent().build();
 	}
 }

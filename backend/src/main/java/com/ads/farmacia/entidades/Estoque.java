@@ -3,6 +3,7 @@ package com.ads.farmacia.entidades;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,19 +19,19 @@ public class Estoque implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer codOperacao;
 
-	@column(name = "validade")
+	@Column(name = "validade")
 	private String dataValidade;
 
-	@column(name = "lote")
+	@Column(name = "lote")
 	private Long lote;
 
-	@column(name = "quantidade")
+	@Column(name = "quantidade")
 	private Integer qtdeCaixa;
 
-	@column(name = "loja")
+	@Column(name = "loja")
 	private Loja loja;
 
-	@column(name = "produto")
+	@Column(name = "produto")
 	private ProdForn produto;
 
 	public Estoque() {

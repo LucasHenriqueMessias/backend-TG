@@ -2,6 +2,7 @@ package com.ads.farmacia.entidades;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,13 +13,13 @@ public class ItemPedido {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@column (name = "quantidade")
+	@Column (name = "quantidade")
 	private Integer quantidade;
 
-	@column (name = "produto")
+	@Column (name = "produto")
 	private ProdForn produto;
 
-	@column (name = "pedido")
+	@Column (name = "pedido")
 	private Pedido pedido;
 
 	public ItemPedido() {

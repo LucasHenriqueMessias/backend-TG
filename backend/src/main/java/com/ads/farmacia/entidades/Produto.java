@@ -19,7 +19,7 @@ public class Produto implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer sku;
-	
+
 	@Column(name = "receita")
 	private String receita;
 
@@ -78,6 +78,7 @@ public class Produto implements Serializable {
 		this.restricao = restricao;
 		this.miligrama = miligrama;
 		this.direcionamento = direcionamento;
+		prodForn = new ArrayList<>();
 	}
 
 	public Integer getSku() {

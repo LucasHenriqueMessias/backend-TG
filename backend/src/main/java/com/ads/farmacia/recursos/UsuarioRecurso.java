@@ -1,15 +1,21 @@
 package com.ads.farmacia.recursos;
-
+import java.net.URI;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.ads.farmacia.entidades.Usuario;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import com.ads.farmacia.dto.UsuarioDTO;
 import com.ads.farmacia.servicos.UsuarioServico;
+
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -20,54 +26,45 @@ public class UsuarioRecurso {
 	private UsuarioServico servico;
 	
 	@GetMapping
-	public ResponseEntity<List<Usuario>> findAll() {
-		List<Usuario> lista = servico.findAll();
+	public ResponseEntity<List<UsuarioDTO>> findAll() {
+		List<UsuarioDTO> lista = servico.findAll();
 		return ResponseEntity.ok().body(lista);
 	}
 	
 
-	@PostMapping("/usuarios")
-	public	Usuario criaUsuario(@RequestBody Usuario usuario) {
-		return UsuarioRecurso.save(usuario);
+	@PostMapping("/usuarios/{cpf}")
+	public ResponseEntity<UsuarioDTO> insert(@RequestBody UsuarioDTO dto) {
+		dto = servico.insert(dto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{cpf}").buildAndExpand(dto.getCpf())
+				.toUri();
+
+		return ResponseEntity.created(uri).body(dto);
 	}
 
-	// get Usuario by id rest api
-	@GetMapping("/usuarios/{id}")
-	public ResponseEntity<Usuario> getEmployeeById(@PathVariable Long id) {
-		Usuario usuario = UsuarioRepositorio.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
-		return ResponseEntity.ok(usuario);
+	// get Usuario by cpf rest api
+	@GetMapping("/usuarios/{cpf}")
+	public ResponseEntity<UsuarioDTO> findById(@PathVariable Integer cnpj) {
+		UsuarioDTO dto = servico.findById(cnpj);
+		return ResponseEntity.ok().body(dto);
 	}
 
-	// update Usuario rest api
+
+
 
 	@PutMapping("/usuarios/{id}")
-	public ResponseEntity<Usuario> atualizaUsuario(@PathVariable Long id, @RequestBody Usuario detalhesUsuario) {
-		final Usuario usuario = UsuarioRepositorio.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
+	public ResponseEntity<UsuarioDTO> update(@PathVariable Integer cpf, @RequestBody UsuarioDTO dto) {
+		dto = servico.update(cpf, dto);
 
-		Usuario.setSenha(detalhesUsuario.getSenha());
-		Usuario.setNome(detalhesUsuario.getNome());
-		Usuario.setEmail(detalhesUsuario.getEmail());
-		Usuario.setCargo(detalhesUsuario.getCargo());
-		Usuario.setTelefone(detalhesUsuario.getTelefone());
-		Usuario.setSituacao(detalhesUsuario.getSituacao());
-		Usuario.setLoja(detalhesUsuario.getLoja());
-
-
-		Produto atualizaUsuario = UsuarioRepositorio.save(usuario);
-		return ResponseEntity.ok(atualizaUsuario);
+		return ResponseEntity.ok().body(dto);
 	}
+	
 
-	// delete Usuario rest api
-	@DeleteMapping("/usuarios/{id}")
-	public ResponseEntity<Map<String, Boolean>> deletaUsuEntity(@PathVariable Long id) {
-		Optional<Usuario> usuario = UsuarioRepositorio.findById(id);
 
-		UsuarioRepositorio.deleteById(id);
-		Map<String, Boolean> response = new HashMap<>();
-		response.put("deleted", Boolean.TRUE);
-		return ResponseEntity.ok(response);
+	@DeleteMapping("/usuarios/{cpf}")
+	public ResponseEntity<Void> delete(@PathVariable Integer cpf) {
+		servico.delete(cpf);
+
+		return ResponseEntity.noContent().build();
 	}
 
 	

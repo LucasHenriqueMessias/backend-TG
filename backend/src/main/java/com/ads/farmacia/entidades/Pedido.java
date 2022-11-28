@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,16 +20,16 @@ public class Pedido implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer numPedido;
 
-	@column (name = "dataCriacao")
+	@Column (name = "dataCriacao")
 	private String dataCriacao;
 
-	@column (name = "status")
+	@Column (name = "status")
 	private boolean status;
 
-	@column (name = "itemPedido")
+	@Column (name = "itemPedido")
 	ArrayList<ItemPedido> itemPedidos = new ArrayList<ItemPedido>();
 
-	@column (name = "loja")
+	@Column (name = "loja")
 	private Loja loja;
 
 	public Pedido() {

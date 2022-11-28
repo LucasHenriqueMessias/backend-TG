@@ -1,11 +1,15 @@
 package com.ads.farmacia.entidades;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 @Entity
@@ -13,46 +17,52 @@ import javax.persistence.Table;
 public class Loja implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+	private Instant createdAt;
+
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+	private Instant updatedAt;
+
 	@Id
 	private Integer cnpj;
 
-	@column (name = "logradouro")
+	@Column(name = "logradouro")
 	private String logradouro;
 
-	@column (name = "IBGE")
+	@Column(name = "IBGE")
 	private Integer ibge;
 
-	@column (name = "numero")
+	@Column(name = "numero")
 	private Integer numero;
 
-	@column (name = "cep")
+	@Column(name = "cep")
 	private Integer cep;
 
-	@column (name = "complemento")
+	@Column(name = "complemento")
 	private String complemento;
 
-	@column (name = "cidade")
+	@Column(name = "cidade")
 	private String cidade;
 
-	@column (name = "UF")
+	@Column(name = "UF")
 	private String uf;
 
-	@column (name = "telefone")
+	@Column(name = "telefone")
 	private String telefone;
 
-	@column (name = "franquia")
+	@Column(name = "franquia")
 	private String franquia;
 
-	@column (name = "usuarios")
+	@Column(name = "usuarios")
 	private ArrayList<Usuario> usuarios;
 
-	@column (name = "estoque")
+	@Column(name = "estoque")
 	private ArrayList<Estoque> estoques;
 
-	@column (name = "movimentacoes")
+	@Column(name = "movimentacoes")
 	private ArrayList<Movimentacao> movimentacoes;
 
-	@column (name = "pedidos")
+	@Column(name = "pedidos")
 	private ArrayList<Pedido> pedidos;
 
 	public Loja() {
@@ -65,6 +75,10 @@ public class Loja implements Serializable {
 		this.cep = cep;
 		this.telefone = telefone;
 		this.franquia = franquia;
+		usuarios = new ArrayList<>();
+		estoques = new ArrayList<>();
+		movimentacoes = new ArrayList<>();
+		pedidos = new ArrayList<>();
 	}
 
 	public Integer getNumero() {
@@ -159,6 +173,44 @@ public class Loja implements Serializable {
 		this.pedidos = pedidos;
 	}
 
+	public void setCnpj(Integer cnpj) {
+		this.cnpj = cnpj;
+	}
+
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
+	}
+
+	public void setIbge(Integer ibge) {
+		this.ibge = ibge;
+	}
+
+	public void setCep(Integer cep) {
+		this.cep = cep;
+	}
+
+	public void setFranquia(String franquia) {
+		this.franquia = franquia;
+	}
+
+	public Instant getCreatedAt() {
+		return createdAt;
+	}
+
+	public Instant getUpdatedAt() {
+		return updatedAt;
+	}
+
+	@PrePersist
+	public void prePersist() {
+		createdAt = Instant.now();
+	}
+	
+	@PreUpdate
+	public void preUpdate() {
+		updatedAt = Instant.now();
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(cnpj);

@@ -1,90 +1,64 @@
 package com.ads.farmacia.recursos;
 
-import java.util.HashMap;
+import java.net.URI;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.ads.farmacia.entidades.Produto;
-import com.ads.farmacia.exception.ResourceNotFoundException;
-import com.ads.farmacia.repositorios.ProdutoRepositorio;
-
+import com.ads.farmacia.dto.ProdutoDTO;
+import com.ads.farmacia.servicos.ProdutoServico;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
-@RequestMapping(value = "/produtos", 
-	produces = "application/json")
+@RequestMapping(value = "/produtos", produces = "application/json")
 public class ProdutoRecurso {
 
 	@Autowired
-	private ProdutoRepositorio produtoRepositorio;
+	private ProdutoServico servico;
 
 	@GetMapping
-	public ResponseEntity<List<Produto>> findAll() {
-		List<Produto> lista = produtoRepositorio.findAll();
+	public ResponseEntity<List<ProdutoDTO>> findAll() {
+		List<ProdutoDTO> lista = servico.findAll();
 		return ResponseEntity.ok().body(lista);
 	}
 
-	@PostMapping("/produtos")
-	public Produto criaProduto(@RequestBody Produto produto) {
-		return produtoRepositorio.save(produto);
+	@GetMapping(value = "/{sku}")
+	public ResponseEntity<ProdutoDTO> findById(@PathVariable Integer sku) {
+		ProdutoDTO dto = servico.findById(sku);
+		return ResponseEntity.ok().body(dto);
 	}
 
-	// get produtos by id rest api
-	@GetMapping("/produtos/{id}")
-	public ResponseEntity<Produto> getEmployeeById(@PathVariable Long id) {
-		Produto produto = produtoRepositorio.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
-		return ResponseEntity.ok(produto);
+	@PostMapping
+	public ResponseEntity<ProdutoDTO> insert(@RequestBody ProdutoDTO dto) {
+		dto = servico.insert(dto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{sku}").buildAndExpand(dto.getSku()).toUri();
+
+		return ResponseEntity.created(uri).body(dto);
 	}
 
-	// update product rest api
+	@PutMapping(value = "/{sku}")
+	public ResponseEntity<ProdutoDTO> update(@PathVariable Integer sku, @RequestBody ProdutoDTO dto) {
+		dto = servico.update(sku, dto);
 
-	@PutMapping("/produtos/{id}")
-	public ResponseEntity<Produto> atualizaProduto(@PathVariable Long id, @RequestBody Produto detalhesProduto) {
-		final Produto produto = produtoRepositorio.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
-
-		produto.setDescricao(detalhesProduto.getDescricao());
-		produto.setDirecionamento(detalhesProduto.getDirecionamento());
-		produto.setGenerico(detalhesProduto.getGenerico());
-		produto.setLinkBula(detalhesProduto.getLinkBula());
-		produto.setMiligrama(detalhesProduto.getMiligrama());
-		produto.setMolecula(detalhesProduto.getMolecula());
-		produto.setNomeComercial(detalhesProduto.getNomeComercial());
-		produto.setProdForn(detalhesProduto.getProdForn());
-		produto.setReceita(detalhesProduto.getReceita());
-		produto.setRecomendacao(detalhesProduto.getRecomendacao());
-		produto.setRestricao(detalhesProduto.getRestricao());
-		produto.setSku(detalhesProduto.getSku());
-		produto.setTarja(detalhesProduto.getTarja());
-		produto.setUnidMedida(detalhesProduto.getUnidMedida());
-
-		Produto atualizaProduto = produtoRepositorio.save(produto);
-		return ResponseEntity.ok(atualizaProduto);
+		return ResponseEntity.ok().body(dto);
 	}
 
-	// delete produto rest api
-	@DeleteMapping("/produtos/{id}")
-	public ResponseEntity<Map<String, Boolean>> deletaProduEntity(@PathVariable Long id) {
-		Optional<Produto> produto = produtoRepositorio.findById(id);
+	@DeleteMapping(value = "/{sku}")
+	public ResponseEntity<Void> delete(@PathVariable Integer sku) {
+		servico.delete(sku);
 
-		produtoRepositorio.deleteById(id);
-		Map<String, Boolean> response = new HashMap<>();
-		response.put("deleted", Boolean.TRUE);
-		return ResponseEntity.ok(response);
+		return ResponseEntity.noContent().build();
 	}
 
 }
