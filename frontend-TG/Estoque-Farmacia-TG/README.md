@@ -12,9 +12,8 @@
 
 - Gabriela Verissimo e Silva
 - Guilherme Toshio Iita
-- Gustavo Martins Gomes
-- Lucas Messias Gonçalves
-- Pedro Montanini
+- Lucas Henrique Messias Gonçalves
+- Pedro Henrique Montanini Teodoro
 
 ## Documentação do Sistema
 
