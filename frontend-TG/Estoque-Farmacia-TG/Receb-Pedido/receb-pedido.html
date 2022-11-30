@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="receb-pedido.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400&family=Roboto:ital,wght@1,300&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/39cc796ec5.js" crossorigin="anonymous"></script>
+    <title>Recebimento de Pedido</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="../Página Inicial/pag-inicial.html" style="color: #F8F8F8">
+            <img src="../Images/medicine.svg" width="50" height="50" class="d-inline-block align-top" alt="">
+            Bleu<div class="navbar-brand" style="color: #C7C7C7">Pharma</div>
+          </a>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Alterna navegação">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <br>
+            <a class="nav-item nav-link" href="../Pedidos/pag-pedidos.html" style="color: #F8F8F8;">Pedido</a>
+            <br>
+            <a class="nav-item nav-link" href="../Estoque/pag-estoque.html" style="color: #F8F8F8;">Estoque</a>
+            <br>
+            <a class="nav-item nav-link" href="../Movimentacao/pag-movimentacao.html" style="color: #F8F8F8;">Movimentação</a>
+          </div>
+        </div>
+      </nav>
+      <div class="box-conteudo">
+        <div class="d-flex justify-content-left">
+          <h1 class="h1-receb">Recebimento de Pedido</h1><div class="linha d-flex justify-content-center"></div>
+          <div class="d-flex justify-content-end">
+            <button class="botaoVoltar" onclick="voltaPaginaEstoque()">Voltar</button>
+          </div>
+      </div>
+        <div class="d-flex justify-content-left">
+          <p class="info">* Informações obrigatórias para o recebimento.</p>
+        </div>
+        <div class="inputs">
+            <form>
+              <div class="d-flex flex-row justify-content-center">
+                <div class="d-flex flex-column">
+                  <input class="inputStyle" type="text" id="Input" placeholder="* Número do Pedido" name="num_ped" maxlength="100" required><button class="btn" type="button"><i class="fa-solid fa-arrow-down"></i></button>
+                  <div class="input-group-text">
+                    <input type="checkbox" aria-placeholder="Perda durante transporte ou manuseio?"><label>Perda durante transporte ou manuseio?</label>
+                  </div>
+                  <textarea id="textarea" name="textarea" placeholder="Observações"></textarea>
+                </div>
+                <!-- <div class="d-flex flex-row">
+                    <div class="d-flex flex-column">
+                        <p>Hora da Entrega</p>
+                        <p>12:02:55</p>
+                    </div>
+                </div>
+                <div class="d-flex flex-row">
+                    <div class="d-flex flex-column">
+                        <p>Data de Entrega</p>
+                        <p>28/09/2022</p>
+                    </div>
+                </div> -->
+                <div class="d-flex flex-column">
+                  <input class="inputStyle" type="text" id="Input" placeholder="* CPF" pattern="[0-9]{11}" onblur="formataCPF(this)" name="cpf_usu" maxlength="11" required>
+                  <input class="inputStyle" type="password" id="password" name="password" placeholder="* Insira sua senha" maxlength="100" required>
+                  <!-- <img src="../Images/eye.svg" alt=""> -->
+                  <input class="inputStyle" type="password" id="passwprd" placeholder="* Confirme sua senha" name="password" maxlength="100" required>
+                  <div class="d-flex flex-row">
+                      <button class="btnRegistrar" type="button" data-toggle="modal" data-target="#modalConfirma">Confirmar</button>
+                      <div class="modal fade" id="modalConfirma" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-body">
+                              <h5 class="modal-title" id="exampleModalLabel">Confirmar recebimento?</h5>
+                              <div class="linha1" style="background-color: #4D4B4B; text-align:center;"></div>
+                              <input class="inputStyle" type="password" id="passwprd" placeholder="* Insira sua senha" name="password" maxlength="100" required>
+                              <input class="inputStyle" type="password" id="passwprd" placeholder="* Confirme sua senha" name="password" maxlength="100" required>
+                              <button type="submit" class="btnEnviar" onclick="Confirma()" value="Exibir Alert">Enviar</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <button class="btnNegar" type="button" data-toggle="modal" data-target="#modalNegar">Negar</button>
+                      <div class="modal fade" id="modalNegar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-body">
+                              <h5 class="modal-title" id="exampleModalLabel">Negar recebimento?</h5>
+                              <div class="linha1" style="background-color: #4D4B4B; text-align:center;"></div>
+                              <input class="inputStyle" type="password" id="passwprd" placeholder="* Insira sua senha" name="password" maxlength="100" required>
+                              <input class="inputStyle" type="password" id="passwprd" placeholder="* Confirme sua senha" name="password" maxlength="100" required>
+                              <button type="submit" class="btnNegar1" onclick="Negar()" value="Exibir Alert">Negar</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>         
+                  </div>
+                </div>
+              </div>
+            </form>
+        </div>
+</body>
+</html>
+
+<script src="receb-pedido.js"></script>

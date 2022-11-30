@@ -1,0 +1,118 @@
+.navbar {
+    background-image: radial-gradient(161.24% 441.86% at -20.18% 135.19%, #2B7B63 0%, rgba(68, 143, 134, 0.846836) 51.27%, rgba(18, 195, 251, 0.380208) 100%)
+}
+
+.navbar-brand {
+    font-family:'Roboto Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 39px;
+    text-align: center;
+    color: #C7C7C7;
+}
+
+.nav-item {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 36px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+h1 {
+    font-family: 'Roboto Condensed', sans-serif;
+    padding-left: 3rem;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 80px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #4D4B4B;
+}
+
+.botaoVoltar {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+    margin-top: 20px;
+    margin-left: 5rem;
+    /* margin-right: 3rem; */
+    border-style: none;
+    width: 104px;
+    height: 31.6px;
+    background: #BE6363;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+
+}
+
+p {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    padding-left: 3rem;
+    color: #CB3232;
+
+}
+
+.inputStyle {
+    border-style: none;
+    width: 22rem;
+    height: 56px;
+    border-bottom: 2px solid #404040;
+    box-shadow: (0px 4px 4px rgba(0, 0, 0, 0.25));
+    margin-left: 3rem;
+    margin-right: 2rem;
+}
+
+.inputStyle1 {
+    border-style: none;
+    width: 169px;
+    height: 56px;
+    border-bottom: 2px solid #404040;
+    box-shadow: (0px 4px 4px rgba(0, 0, 0, 0.25));
+    margin-right: 1rem;
+    margin-left: 3rem;
+}
+
+.inputStyle2 {
+    border-style: none;
+    width: 150px;
+    height: 56px;
+    border-bottom: 2px solid #404040;
+    box-shadow: (0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.table-striped {
+    font-style: 'Roboto Condensed', sans-serif;
+    background-color: #ECECEC;
+
+}
+
+.fa-xmark {
+    color: rgb(253, 0, 0);
+}
+
+button {
+    background-color: transparent;
+    border-style: none;
+}
+
+th {
+    width: 10rem;
+}
+
+.table-responsive-sm {
+    width: 40%;
+}
