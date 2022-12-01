@@ -36,3 +36,42 @@ function Negar()
 {
 alert("Recebimento Negado");
 }
+
+
+var urlPedido = "http://localhost:8080/Pedido";
+const camposPedido = [
+    'numPedido',
+    'dataCriacao',
+    'status',
+    //ArrayList<ItemPedido> itemPedidos = new ArrayList<ItemPedido>();
+    'loja'
+
+];
+
+//API
+$(document).ready(function() {
+    $("button").click(function() {
+
+        const camposForm = $("form").serializeArray();
+
+        if (this.id == 'btnEnviar') { //Confirmar Pedido
+            var camposPedidoPost = camposPedido;
+            camposPedidoPost.shift();
+
+            var jsonPedido = valiidaCampos(camposForm, camposPedidoPost);
+
+            post(urlPedido, jsonPedido);
+
+        } else if (this.id == 'btnNegar') { //Negar Pedido
+            var jsonPedido = valiidaCampos(camposForm, camposPedido);
+            var urlPedidoPut = urlPedido
+            var arrayPedido = JSON.parse(jsonPedido)
+
+            urlPedidoPut += "/" + arrayPedido.sku
+
+            del(urlPedidoPut, jsonPedido); //delete palavra reservada, alterada para del
+        }
+
+    })
+
+});

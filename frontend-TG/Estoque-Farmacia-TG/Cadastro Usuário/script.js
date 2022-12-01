@@ -42,3 +42,46 @@ function formataCNPJ(cnpj) {
     });
     elementoAlvo.value = cpfAtualizado;
 }
+
+//Métodos POST
+var urlUsuario = "http://localhost:8080/usuarios";
+const camposUsuario =[
+'cpf',
+'crf',
+'nome',
+'email',
+'senha',
+'cargo',
+'telefone',
+'situacao'='Pendente', 
+'loja'
+];
+
+$(document).ready(function() {
+    $("button").click(function() {
+
+        const camposForm = $("form").serializeArray();
+
+        if (this.id == 'botaoEnviar') {
+            var camposUsuarioPost = camposUsuario;
+            camposUsuarioPost.shift();
+
+            var jsonUsuario = valiidaCampos(camposForm, camposUsuarioPost);
+
+            post(urlUsuario, jsonUsuario);
+
+        } 
+        /*
+        else if (this.id == 'btnAlterar') {
+            var jsonUsuario = valiidaCampos(camposForm, camposUsuario);
+            var urlUsuarioPut = urlUsuario
+            var arrayUsuario = JSON.parse(jsonUsuario)
+
+            urlUsuarioPut += "/" + arrayUsuario.sku
+
+            put(urlUsuarioPut, jsonUsuario);
+        }
+        */
+    })
+
+});
